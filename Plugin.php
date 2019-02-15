@@ -75,7 +75,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 		$packages = $this->composer->getRepositoryManager()->getLocalRepository()->getPackages();
 		foreach ($packages as $package) {
 			$vendor_dir = strtok(realpath($this->composer->getInstallationManager()->getInstallPath($package))
-			
+			echo "scan $vendor_dir\n";
 			foreach ($ignoreList as $vendor => $files) {
 				$target = $vendor_dir . ($vendor !== 'default' ? $vendor : '');
 				$root = $this->fileSystem->normalizePath($target);
@@ -92,7 +92,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 	{
 		foreach ($files as $file) {
 			$_file = $this->fileSystem->normalizePath("{$root}/{$file}");
-			echo 'delete ' . $_file . ' OK\n'; 
+			echo "delete $_file OK\n";
 			if (is_dir($_file)) {
 				$this->fileSystem->removeDirectory($_file);
 			} else {
