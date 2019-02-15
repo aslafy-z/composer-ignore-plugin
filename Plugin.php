@@ -74,7 +74,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 		$vendor_dir = $this->config->get('vendor-dir');
 		
 		foreach ($ignoreList as $vendor => $files) {
-			$root = $this->fileSystem->normalizePath("{$vendor_dir}/{$vendor}");
+			$target = $vendor_dir . ($vendor !== 'default' ? $vendor : '');
+			$root = $this->fileSystem->normalizePath($target);
 			$this->ignorePath($root, $files);
 		}
 	}
