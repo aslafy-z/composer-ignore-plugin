@@ -88,6 +88,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 	{
 		foreach ($files as $file) {
 			$_file = $this->fileSystem->normalizePath("{$root}/{$file}");
+			echo 'delete ' . $_file . ' OK\n'; 
 			if (is_dir($_file)) {
 				$this->fileSystem->removeDirectory($_file);
 			} else {
