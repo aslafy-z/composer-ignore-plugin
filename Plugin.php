@@ -74,7 +74,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 		// Scan all packages
 		$packages = $this->composer->getRepositoryManager()->getLocalRepository()->getPackages();
 		foreach ($packages as $package) {
-			$vendor_dir = strtok(realpath($this->composer->getInstallationManager()->getInstallPath($package))
+			$vendor_dir = strtok(realpath($this->composer->getInstallationManager()->getInstallPath($package)));
 			echo "scan $vendor_dir\n";
 			foreach ($ignoreList as $vendor => $files) {
 				$target = $vendor_dir . ($vendor !== 'default' ? $vendor : '');
