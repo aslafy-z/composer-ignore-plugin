@@ -71,15 +71,18 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 			return;
 		}
 		
-		// Scan all packages
-		$packages = $this->composer->getRepositoryManager()->getLocalRepository()->getPackages();
-		foreach ($packages as $package) {
-			$vendor_dir = strtok(realpath($this->composer->getInstallationManager()->getInstallPath($package)));
-			echo "scan $vendor_dir\n";
-			foreach ($ignoreList as $vendor => $files) {
-				$target = $vendor_dir . ($vendor !== 'default' ? $vendor : '');
-				$root = $this->fileSystem->normalizePath($target);
-				$this->ignorePath($root, $files);
+		$repos = $this->composer->getRepositoryManager()->getRepositories();
+		// Scan all packages from all repos
+		foreach ($repos as $repo) {
+			$packages = $repo->getPackages();
+			foreach ($packages as $package) {
+				$vendor_dir = strtok(realpath($this->composer->getInstallationManager()->getInstallPath($package)));
+				echo "scan $vendor_dir\n";
+				foreach ($ignoreList as $vendor => $files) {
+					$target = $vendor_dir . ($vendor !== 'default' ? $vendor : '');
+					$root = $this->fileSystem->normalizePath($target);
+					$this->ignorePath($root, $files);
+				}
 			}
 		}
 	}
