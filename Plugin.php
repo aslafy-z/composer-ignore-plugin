@@ -71,12 +71,16 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 			return;
 		}
 		
-		$vendor_dir = $this->config->get('vendor-dir');
-		
-		foreach ($ignoreList as $vendor => $files) {
-			$target = $vendor_dir . ($vendor !== 'default' ? $vendor : '');
-			$root = $this->fileSystem->normalizePath($target);
-			$this->ignorePath($root, $files);
+		// Scan all packages
+		$packages = $this->composer->getRepositoryManager()->getLocalRepository()->getPackages();
+		foreach ($packages as $package) {
+			$vendor_dir = strtok(realpath($this->composer->getInstallationManager()->getInstallPath($package))
+			
+			foreach ($ignoreList as $vendor => $files) {
+				$target = $vendor_dir . ($vendor !== 'default' ? $vendor : '');
+				$root = $this->fileSystem->normalizePath($target);
+				$this->ignorePath($root, $files);
+			}
 		}
 	}
 	
